@@ -6,35 +6,78 @@
 
 - Créer une image Docker sur votre machine du jeu 2048 (voir screen jeux_2048).
 
+```docker pull kubespheredev/2048```
+
 - Vérifier que l’image est bien présente sur votre machine.
+
+
+```docker images```
 
 - Lancer ce jeu sur un port disponible au travers d’un conteneur que vous allez appeler «jeu-votre-nom ». 
 
+```docker run -d -p 8080:80 --name jeu-maneo kubespheredev/2048:latest```
+
 - Vérifier que le conteneur est bien lancé avec la commande adaptée.
+
+```docker ps```
 
 - Créer un second conteneur qui va lancer le même jeu mais avec un nom différent «jeu2-votre-nom ».
 
+```docker run -d -p 8081:80 --name jeu2-maneo kubespheredev/2048:latest```
+
 - Les 2 jeux sont fonctionnels en même temps sur votre machine, effectuez la commande pour vérifier la présence des conteneurs.
+
+```docker ps```
 
 - Ouvrez les 2 jeux sur votre navigateur. 
 
 - Stopper les 2 conteneurs et assurez-vous que ces 2 conteneurs sont arrêtés.
 
+```docker stop jeu-maneo```
+
+```docker stop jeu2-maneo```
+
+```docker ps```
+
 - Relancez le conteneur «jeu2-votre-nom » et aller vérifier dans votre navigateur s’il fonctionne bien. Effectuez la commande pour voir s’il a bien été relancé. Puis stopper le. 
 
+```docker start jeu2-maneo```
+
+```docker ps```
+
+```docker stop jeu2-maneo```
 - Supprimez l’image du jeu 2048 et les conteneurs associés.
+
+```docker rm jeu-maneo```
+
+```docker rm jeu2-maneo```
+
+```docker rmi kubespheredev/2048:latest```
 
 - Vérifiez que les suppressions ont bien été faite.
 
+```docker images```
+
+```docker ps -a```
 
 ## Partie 2
 
 
 - Récupérer une image docker nginx.
 
+```docker search nginx```
+
+```docker pull nginx```
+
 - Créer un conteneur en vous basant sur cette image en lui attribuant le nom suivant : « nginx-web».
 
+```docker run -d -p 8080:80 --name nginx-web nginx```
+
 - Assurez-vous que l’image est bien présente et que le conteneur est bien lancé.
+
+```docker images```
+
+```docker ps```
 
 - Ce serveur nginx web (nginx-web) devra être lancé sur un port disponible.
 
@@ -44,14 +87,43 @@
 
 - Effectuer la commande vous permettant de rentrer à l’intérieur de votre serveur nginx.
 
+```docker exec -it nginx-web sh```
+
+
 - Une fois à l’intérieur, aller modifier la page html par défaut de votre serveur nginx en changeant le titre de la page en :  
 Welcome «votre prenom ».
 
+```cd usr/share/nginx/html```
+
+```apt update```
+
+```apt install nano```
+
+```nano index.html```
+
 - Relancez votre serveur et assurez-vous que le changement à bien été pris en compte, en relançant votre navigateur.
+
+```docker restart nginx-web```
 
 - Refaite la même opération mais en utilisant le serveur web apache et donc il faudra créer un autre conteneur.
 
+```docker search httpd```
+
+```docker pull httpd```
+
+```docker images```
+
+```docker exec -it apache sh```
+
 - Il faut supprimer le contenu complet de l'index.html et y mettre : "Je suis heureux et je m'appelle votre prenom".
+
+```cd /usr/local/apache2/htdocs```
+
+```apt update```
+
+```apt install nano```
+
+```nano index.html```
 
 - Le changement doit appaître dans votre navigateur.
 
@@ -74,4 +146,16 @@ Welcome «votre prenom ».
 
 - html5up-paradigm-shift.zip pour nginx-web5
 
+```docker run -d -p 8083:80 --name nginx-web3 -v C:\Users\mdang\Desktop\dockerM2\nginx3:/usr/share/nginx/html nginx```
+
+```docker run -d -p 8084:80 --name nginx-web4 -v C:\Users\mdang\Desktop\dockerM2\nginx4:/usr/share/nginx/html nginx```
+
+```docker run -d -p 8085:80 --name nginx-web5 -v C:\Users\mdang\Desktop\dockerM2\nginx5:/usr/share/nginx/html nginx```
+
 - Stopper, ensuite, ces différents conteneurs.
+
+```docker stop nginx-web3```
+
+```docker stop nginx-web4```
+
+```docker stop nginx-web5```
